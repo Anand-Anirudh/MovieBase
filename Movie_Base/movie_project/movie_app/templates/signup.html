@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://t4.ftcdn.net/jpg/03/57/34/39/360_F_357343965_u58BFcRrziBVMqgt6liwPHJKcIjHsPnc.jpg');
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      max-width: 400px;
+      padding: 40px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .container input[type="text"],
+    .container input[type="password"],
+    .container input[type="confirmpassword"],
+    .container input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .container input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .container input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .container p {
+      text-align: center;
+      color: #666;
+    }
+
+    .container p a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+    
+  <div class="container">
+    <h2>Signup</h2>
+    <form method="post">
+        {% csrf_token %}
+      <input type="text" name="Username" placeholder="Username" required>
+      <input type="email" name="Email" placeholder="Email" required>
+      <input type="password" name="Password" placeholder="Password" required>
+      <input type="confirmpassword" name="ConfirmPassword" placeholder="ConfirmPassword" required>
+      <input type="submit" value="Signup">
+    </form>
+    <p>Already have an account? <a href="signin">Login here</a></p>
+    <p><p>{% if messages %}
+        {% for i in messages %}
+        {{i}}
+        {% endfor %}
+        {% endif %}</p></p>
+  </div>
+
+</body>
+</html>

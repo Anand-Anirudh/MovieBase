@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .card-title {
+        font-weight: bold;
+    }
+
+    .right {
+        float: right;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    h2,
+    h3 {
+        color: white;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    .card {
+        background-color: rgb(49, 48, 47);
+        color: white;
+        border: 3px solid rgb(225, 117, 10);
+        width: 100%;
+        max-width: 22rem;
+        height: 38rem;
+    }
+
+    .card-container {
+        margin-left: 5px;
+        margin-top: 10px;
+    }
+
+    .pagination-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    /* Responsive styles */
+    @media screen and (min-width: 576px) {
+        .card-container {
+            flex-basis: calc(50% - 10px);
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .card-container {
+            flex-basis: calc(33.33% - 10px);
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .card-container {
+            flex-basis: calc(25% - 10px);
+        }
+    }
+</style>
+
+<div class="container">
+    <h3>Search result for:</h3>
+    <h2>{{ query }}</h2>
+</div>
+<hr>
+
+<div class="row">
+    {% for result in results %}
+    {% if result.media_type == 'movie' %}
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="card-container">
+            <a href="{% url 'movie_details' result.id %}">
+                <div class="card mb-4">
+                    <img src="https://image.tmdb.org/t/p/w500{{ result.poster_path }}" class="card-img-top"
+                        alt="{{ result.title }} Poster">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ result.title }}</h5>
+                        <span class="card-text right"><i class="material-icons">date_range</i>{{ result.release_date }}</span>
+                        <span class="card-text ">{{ result.media_type }}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% elif result.media_type == 'tv' %}
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="card-container">
+            <a href="{% url 'tv_series_details' result.id %}">
+                <div class="card mb-4">
+                    <img src="https://image.tmdb.org/t/p/w500{{ result.poster_path }}" class="card-img-top"
+                        alt="{{ result.name }} Poster">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ result.name }}</h5>
+                        <span class="card-text right "><i class="material-icons">date_range</i>{{ result.first_air_date }}</span>
+                        <span class="card-text">{{ result.media_type }}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Display pagination links -->
+<div class="container pagination-container">
+    {% if results.has_previous %}
+    <a class="btn btn-outline-primary btn-lg"
+        href="?q={{ query }}&page={{ results.previous_page_number }}" role="button">Previous</a>
+    {% endif %}
+    {% if results.has_next %}
+    <a class="btn btn-outline-primary btn-lg" href="?q={{ query }}&page={{ results.next_page_number }}"
+        role="button">Next</a>
+    {% endif %}
+    <hr>
+</div>
+
+{% endblock %}

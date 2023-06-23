@@ -1,0 +1,327 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .row::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .img-container {
+        border: 3px solid rgb(225, 117, 10);
+        height: 100%;
+        width: 100%;
+        max-height: 520px;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .trailer-container {
+        border: 3px solid rgb(225, 117, 10);
+        height: 100%;
+        width: 100%;
+        max-height: 520px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .col-sm {
+        border: 3px solid rgb(225, 117, 10);
+        height: 100%;
+        max-height: 520px;
+    }
+
+    .custom-bg-color {
+        background-color: rgb(49, 48, 47);
+        color: white;
+        border-color: rgb(49, 48, 47);
+    }
+
+    .card {
+        border-color: rgb(49, 48, 47);
+    }
+
+    .right {
+        float: right;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .cast-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .cast-item {
+        flex-basis: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .cast-image img {
+        width: 100px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .cast-details {
+        font-size: 16px;
+    }
+
+    .cast-details p {
+        margin: 0;
+    }
+    .comment-box {
+  border: 1px solid  rgb(49, 48, 47);
+  padding: 10px;
+  background-color: rgb(49, 48, 47);
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.comment-box label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.comment-box textarea {
+background-color: rgb(49, 48, 47);
+  width: 100%;
+  height: 100px;
+  padding: 5px;
+  border: 1px solid  rgb(49, 48, 47);
+  border-radius: 5px;
+  resize: none;
+  font-size: 16px;
+  color: white;
+}
+
+.comment-box button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.comment-box button:hover {
+  background-color: #3e8e41;
+}
+.review-item {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.profile-picture img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-details {
+    flex-grow: 1;
+}
+
+.review-details p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.review-details p strong {
+    font-weight: bold;
+}
+
+.review-details span {
+    display: block;
+    font-size: 12px;
+    color: #f4f0f0;
+}
+
+.review-details span:first-child {
+    margin-bottom: 5px;
+}
+
+.review-details span:last-child {
+    margin-top: 5px;
+}
+</style>
+
+
+<div class="container my-4">
+    {% if our_db %}
+    <h1>{{ movie.title }}</h1>
+    <p>{{ movie.tagline }}</p>
+    {% else %}
+    <h1>{{ movie_data.title }}</h1>
+    <p>{{ movie_data.tagline }}</p>
+    {% endif %}
+    <hr>
+    <div class="row">
+        <div class="col-12 col-md-3">
+            <div class="img-container my-4">
+                <img src="https://image.tmdb.org/t/p/w500{% if our_db %}{{ movie.poster_path }}{% else %}{{ movie_data.poster_path }}{% endif %}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="trailer-container my-4">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{% if our_db %}{{ trailer_key }}{% else %}{{ trailer_key }}{% endif %}" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="col-12 col-md my-4">
+            <div class="collections my-3">
+                <p><b>Status:</b> {% if our_db %}{{ movie.status }}{% else %}{{ movie_data.status }}{% endif %}</p>
+                <hr>
+                <p><b>Runtime:</b> {% if our_db %}{{ movie.runtime }}{% else %}{{ movie_data.runtime }}{% endif %} Minutes</p>
+                <hr>
+                <p><b>Popularity:</b> {% if our_db %}{{ movie.popularity }}{% else %}{{ movie_data.popularity }}{% endif %}</p>
+                <hr>
+                <p><b>Budget:</b> {% if our_db %}{{ movie.budget }}{% else %}{{ movie_data.budget }}{% endif %}</p>
+                <hr>
+                <p><b>Revenue:</b> {% if our_db %}{{ movie.revenue }}{% else %}{{ movie_data.revenue }}{% endif %}</p>
+                <hr>
+                <p><b>Rating:</b> {% if our_db %}{{ movie.vote_average }}{% else %}{{ movie_data.vote_average }}{% endif %}</p>
+                <hr>
+                <p><b>Votes:</b> {% if our_db %}{{ movie.vote_count }}{% else %}{{ movie_data.vote_count }}{% endif %}</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h3>Overview</h3>
+                <p>{% if our_db %}{{ movie.overview }}{% else %}{{ movie_data.overview }}{% endif %}</p>
+                <hr>
+                {% if our_db %}
+                    {% if movie.genres.all %}
+                        <h2>Genres</h2>
+                        <ul>
+                            {% for genre in movie.genres.all %}
+                                <li>{{ genre.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No genres available.</p>
+                    {% endif %}
+                {% else %}
+                    {% if movie_data.genres %}
+                        <h2>Genres</h2>
+                        <ul>
+                            {% for genre in movie_data.genres %}
+                                <li>{{ genre.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No genres available.</p>
+                    {% endif %}
+                {% endif %}
+                <hr>
+                {% if our_db %}
+                    {% if movie.production_companies.all %}
+                        <h2>Production Companies</h2>
+                        <ul>
+                            {% for company in movie.production_companies.all %}
+                                <li>{{ company.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% else %}
+                    {% if movie_data.production_companies %}
+                        <h2>Production Companies</h2>
+                        <ul>
+                            {% for company in movie_data.production_companies %}
+                                <li>{{ company.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
+                <hr>
+            </div>
+            <div class="col-12 col-md-6">
+                <h2>Top Cast</h2>
+                <div class="row">
+                    {% for member in cast %}
+                        <div class="col-6">
+                            <div class="cast-item">
+                                <div class="cast-image">
+                                    {% if member.profile_path %}
+                                        <img src="https://image.tmdb.org/t/p/w200{{ member.profile_path }}" alt="">
+                                    {% else %}
+                                        <img src="{% static 'placeholder.png' %}" alt="Placeholder">
+                                    {% endif %}
+                                </div>
+                                <div class="cast-details">
+                                    <p><strong>{{ member.name }}</strong></p>
+                                    <p>{{ member.character }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                            </div>
+                            <div class="row">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="comment-box">
+        <form method="post" action="{% url 'movie_details' movie_id=movie.movie_id %}">
+            {% csrf_token %}
+            
+            <label for="comment">Add a Review:</label>
+            <textarea id="comment" name="comment" placeholder="Write your review here..." required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    
+    <h2>Reviews</h2>
+        {% for review in reviews %}
+            <div class="review-item">
+                <div class="profile-picture">
+                    <img src="{{ review.user.profile.picture.url }}" alt="{{user.profile.username}}">
+                </div>
+                <div class="review-details">
+                    
+                    <p><b>{{ review.user.username }}</b></p>
+                    <span>{{ review.created_at }}</span>
+                    <p>{{ review.comment }}</p>
+                    
+                    
+                </div>
+            </div>
+        {% empty %}
+            <p>No reviews available.</p>
+        {% endfor %}
+
+{% endblock %}

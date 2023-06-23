@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.profile-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-picture {
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.profile-picture img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-details {
+    flex-grow: 1;
+}
+
+/* Rest of the CSS styles remain the same */
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="file"] {
+    display: block;
+    margin-top: 5px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+</style>
+
+<div class="profile-container">
+    <div class="profile-picture">
+        <img src="{{ profile.picture.url }}" alt="Profile Picture">
+    </div>
+    <div class="profile-details">
+        <h2>Welcome, {{ profile.user.username }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" value="{{ profile.first_name }}">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="{{ profile.last_name }}">
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" value="{{ profile.location }}">
+            </div>
+            <div class="form-group">
+                <label for="profile_info">Profile Info:</label>
+                <textarea id="profile_info" name="profile_info">{{ profile.profile_info }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="picture">Profile Picture:</label>
+                <input type="file" id="picture" name="picture">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update Profile">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

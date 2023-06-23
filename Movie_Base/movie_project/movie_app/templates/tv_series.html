@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .card-title {
+        font-weight: bold;
+    }
+
+    .right {
+        float: right;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    h2,
+    h3 {
+        color: red;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    .card {
+        background-color: rgb(49, 48, 47);
+        color: white;
+        border: 3px solid rgb(225, 117, 10);
+        width: 100%;
+        max-width: 22rem;
+        height: 38rem;
+    }
+
+    .card-container {
+        margin-left: 5px;
+        margin-top: 10px;
+    }
+
+    .current-page {
+        color: rgb(49, 48, 47);
+    }
+
+    .pagination-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .footer {
+        background-color: #333;
+        padding: 20px;
+        color: #fff;
+        text-align: center;
+    }
+
+    .footer a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
+    .footer .social-icons {
+        margin-top: 10px;
+    }
+
+    .footer .social-icons a {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .footer .social-icons a:hover {
+        background-color: #ccc;
+    }
+
+    .footer .social-icons .linkedin {
+        background-image: url('linkedin-logo.png');
+        background-size: cover;
+    }
+
+    .footer .social-icons .github {
+        background-image: url('github-logo.png');
+        background-size: cover;
+    }
+
+    .footer .social-icons .instagram {
+        background-image: url('instagram-logo.png');
+        background-size: cover;
+    }
+
+    /* Responsive styles */
+    @media screen and (min-width: 576px) {
+        .card-container {
+            flex-basis: calc(50% - 10px);
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .card-container {
+            flex-basis: calc(33.33% - 10px);
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .card-container {
+            flex-basis: calc(25% - 10px);
+        }
+    }
+</style>
+
+<div class="container">
+    <h1>TV Series</h1>
+    <form method="get" action="{% url 'tv_series' %}">
+        <select name="genre_id">
+            <option value="">All Genres</option>
+            <option value="10759">Action & Adventure</option>
+            <option value="35">Comedy</option>
+            <option value="80">Crime</option>
+            <option value="99">Documentary</option>
+            <option value="18">Drama</option>
+            <option value="10751">Family</option>
+            <option value="9648">Mystery</option>
+            <option value="10765">Sci-fi</option>
+            <option value="10768">War</option>
+            <!-- Add more genre options -->
+        </select>
+        <input type="submit" value="Filter">
+    </form>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% for tv_series in page %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card-container">
+                <a href="{% url 'tv_series_details' tv_series.id %}">
+                    <div class="card">
+                        <img src="https://image.tmdb.org/t/p/w500{{ tv_series.poster_path }}" alt="{{ tv_series.name }} Poster">
+                        <div class="card-body">
+                            <span class="card-title">{{ tv_series.name }}</span>
+                            <span class="right"><i class="material-icons">date_range</i>{{ tv_series.first_air_date }}</span>
+                            
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Display pagination links -->
+<div class="container pagination-container">
+    {% if page.has_previous %}  
+        <a class="btn btn-outline-primary btn-lg" href="?genre_id={{ request.GET.genre_id }}&page={{ page.previous_page_number }}" role="button">Previous</a>
+    {% endif %}
+    {% if page.has_next %}   
+        <a class="btn btn-outline-primary btn-lg" href="?genre_id={{ request.GET.genre_id }}&page={{ page.next_page_number }}" role="button">Next</a>
+    {% endif %}
+</div>
+
+
+    
+{% endblock %}

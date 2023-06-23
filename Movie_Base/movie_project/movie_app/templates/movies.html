@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .card-title {
+        font-weight: bold;
+    }
+
+    .right {
+        float: right;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    h2,
+    h3 {
+        color: red;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    .card {
+        background-color: rgb(49, 48, 47);
+        color: white;
+        border: 3px solid rgb(225, 117, 10);
+        width: 100%;
+        max-width: 22rem;
+        height: 38rem;
+    }
+
+    .card-container {
+        margin-left: 5px;
+        margin-top: 10px;
+    }
+
+    .current-page {
+        color: rgb(49, 48, 47);
+    }
+
+    .pagination-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    
+
+    /* Responsive styles */
+    @media screen and (min-width: 576px) {
+        .card-container {
+            flex-basis: calc(50% - 10px);
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .card-container {
+            flex-basis: calc(33.33% - 10px);
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .card-container {
+            flex-basis: calc(25% - 10px);
+        }
+    }
+</style>
+
+<div class="container">
+    <h1>Movies</h1>
+    <form method="get" action="{% url 'movies' %}">
+        <select name="genre_id">
+            <option value="">All Genres</option>
+            <option value="28">Action</option>
+            <option value="12">Adventure</option>
+            <option value="16">Animation</option>
+            <option value="35">Comedy</option>
+            <option value="80">Crime</option>
+            <option value="10751">Family</option>
+            <option value="14">Fantasy</option>
+            <option value="27">Horror</option>
+            <option value="9648">Mystery</option>
+            <option value="078">Science Fiction</option>
+            <option value="53">Thriller</option>
+            <option value="10752">War</option>
+            <!-- Add more genre options -->
+        </select>
+        <input type="submit" value="Filter">
+    </form>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% for movie in page %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card-container">
+                <a href="{% url 'movie_details' movie.id %}">
+                    <div class="card">
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} Poster">
+                        <div class="card-body">
+                            <span class="card-title">{{ movie.title }}</span>
+                            <span class="right"><i class="material-icons">date_range</i>{{ movie.release_date }}</span>
+                            <p class="card-text">{{ movie_type }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Display pagination links -->
+<div class="container pagination-container">
+    {% if page.has_previous %}  
+        <a class="btn btn-outline-primary btn-lg" href="?genre_id={{ request.GET.genre_id }}&page={{ page.previous_page_number }}" role="button">Previous</a>
+    {% endif %}
+    {% if page.has_next %}   
+        <a class="btn btn-outline-primary btn-lg" href="?genre_id={{ request.GET.genre_id }}&page={{ page.next_page_number }}" role="button">Next</a>
+    {% endif %}
+</div>
+
+
+    
+    
+{% endblock %}

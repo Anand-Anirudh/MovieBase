@@ -1,0 +1,104 @@
+<!-- profile.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+    body {
+        background-image: url('{% static "/images/bg4.jpg" %}');
+        background-size: cover;
+        color: #333;
+    }
+
+    .container {
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .welcome-text {
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 40px;
+    }
+
+    .navbar {
+        background-color: #333;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .navbar-brand {
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .search-bar {
+        display: none;
+        align-items: center;
+        margin-left: 20px;
+    }
+
+    .search-input {
+        width: 300px;
+        padding: 8px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .search-button {
+        padding: 8px 16px;
+        background-color: #555;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+        background-color: #777;
+    }
+</style>
+
+<nav class="navbar">
+    <a class="navbar-brand" href="index">MovieBase</a>
+    <div class="search-bar">
+        <input class="search-input" type="search" placeholder="Search" aria-label="Search" name="q">
+        <button class="search-button" type="submit">Search</button>
+    </div>
+    <span class="material-icons search-icon">search</span>
+</nav>
+
+<div class="container">
+    <h1 class="welcome-text">Welcome to MovieBase</h1>
+
+    <div class="card-container">
+        <div class="card">
+            <h2 class="card-title">Movies</h2>
+            <a href="/movies" class="card-link">Browse Movies</a>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">TV Series</h2>
+            <a href="/tv_series" class="card-link">Browse TV Series</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchIcon = document.querySelector('.search-icon');
+    const searchBar = document.querySelector('.search-bar');
+
+    searchIcon.addEventListener('click', function() {
+        searchBar.style.display = searchBar.style.display === 'none' ? 'flex' : 'none';
+    });
+</script>
+
+{% endblock %}
